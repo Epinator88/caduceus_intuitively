@@ -21,22 +21,17 @@ class HexBg(Scene):
     def construct(self):
         HexBg.dotsGrid = HexBg.makeBoard()
         HexBg.patternList = VGroup()
-        self.add(HexBg.dotsGrid)
-        self.wait(1)
+        self.play(FadeIn(HexBg.dotsGrid))
+        #for some reason it's coming out as each individual line being a ease-in-out. idk why.
         pattern1 = self.drawPattern(3, 1, Clock.one, "qaq")
-        self.wait(1)
         pattern2 = self.drawPattern(3, 2, Clock.three, "aa")
-        self.wait(1)
         pattern3 = self.drawPattern(3, 4, Clock.one, "qaq")
-        self.wait(1)
         pattern4 = self.drawPattern(3, 5, Clock.one, "wa")
-        self.wait(1)
-        pattern5 = self.drawPattern(4, 6, Clock.three, "wqaawdd")
-        self.wait(1)
-        pattern6 = self.drawPattern(4, 9, Clock.three, "qaqqqq")
+        pattern5 = self.drawPattern(4, 7, Clock.three, "wqaawdd")
+        pattern6 = self.drawPattern(4, 10, Clock.three, "qaqqqqq")
         self.wait(1)
         self.clearBoard()
-        self.wait(1)
+        self.play(FadeOut(HexBg.dotsGrid))
 
     def drawPattern(self, row, column, clockDirection, path, col=PURPLE_B):
         #from bottom left
@@ -79,7 +74,7 @@ class HexBg(Scene):
             #update loc accordingly
             loc = loc + UP*math.cos(dir) + RIGHT*math.sin(dir)
             #add line to pattern
-        self.play(AnimationGroup(Create(pattern), rate_func=rate_functions.linear))
+        self.play(AnimationGroup(Create(pattern), rate_func=rate_functions.linear, run_time=len(pattern)*.15))
         HexBg.patternList.add(pattern)
         return pattern
 
